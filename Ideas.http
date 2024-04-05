@@ -1,0 +1,6 @@
+@Ideas_HostAddress = http://localhost:5170
+
+GET {{Ideas_HostAddress}}
+Accept: application/json
+
+###
