@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SMSApi.Api;
 using smsapi.Api.Response.REST.Exception;
-using SMSApi.Api.Response.MFA.Exception;
-using System;
 
 namespace SmsController.Controllers.Sms
 {

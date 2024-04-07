@@ -8,7 +8,6 @@ Properties/PublishProfiles/*
 *.suo
 keys/*
 _site/
-api/
 articles/
 index.md
 toc.yml
