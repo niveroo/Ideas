@@ -10,9 +10,9 @@ namespace SmsController.Controllers.Sms
     {
         private readonly string _token;
 
-        public MFAController()
+        public MFAController(string token)
         {
-            _token = "AKPXqKLGHOc2jIipdQEwJvbKu047T8DOWXVINnXZ";
+            _token = token;
         }
 
         [HttpPost("sendMFA")]

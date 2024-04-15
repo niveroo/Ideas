@@ -16,3 +16,5 @@ docfx.json
 keys/*.xml
 lib/smsapi/docs/icons/logo.jpg
 lib/smsapi/Properties/Resources.resx
+appsettings.json
+libman.json
