@@ -1,14 +1,14 @@
 using Ideas.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using System.Net.Mail;
-using SMSApi.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuration
 var configuration = builder.Configuration;
 var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+var token = configuration.GetValue<string>("SmsApi:ApiKey");
+builder.Services.AddSingleton(token);
 
 builder.Services.AddDbContext<ProductReviewContext>(options =>
     options.UseNpgsql(connectionString));
