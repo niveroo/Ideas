@@ -9,10 +9,12 @@ namespace Ideas.Controllers.Reviws
     public class ReviewsController : ControllerBase
     {
         private readonly ProductReviewContext _context;
+        private readonly SmsSender _smsSender;
 
-        public ReviewsController(ProductReviewContext context)
+        public ReviewsController(ProductReviewContext context, SmsSender smsSender)
         {
             _context = context;
+            _smsSender = smsSender;
         }
 
         [HttpPost("AddFirstReview")]
@@ -21,7 +23,7 @@ namespace Ideas.Controllers.Reviws
             review.ReadyFor2 = DateTime.UtcNow.AddDays(7);
             _context.Reviews.Add(review);
             _context.SaveChanges();
-
+            _smsSender.SendMessage(review.PhoneNumber);
             return CreatedAtAction(nameof(GetReview), new { id = review.Id }, review);
         }
 
@@ -39,6 +41,7 @@ namespace Ideas.Controllers.Reviws
                 existingReview.Points2 = review.Points2;
                 existingReview.Ans2 = review.Ans2;
                 existingReview.ReadyFor3 = DateTime.UtcNow.AddDays(7);
+                _smsSender.SendMessage(existingReview.PhoneNumber);
             }
             else if (DateTime.Now >= existingReview.ReadyFor3 && existingReview.Points3 == null && existingReview.Ans3 == null)
             {

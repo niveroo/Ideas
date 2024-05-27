@@ -1,4 +1,5 @@
 using Ideas.Models;
+using Ideas.Controllers;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,6 +10,11 @@ var connectionString = configuration.GetConnectionString("DefaultConnection");
 
 var token = configuration.GetValue<string>("SmsApi:ApiKey");
 builder.Services.AddSingleton(token);
+
+builder.Services.AddSingleton<SmsSender>(provider =>
+{
+    return new SmsSender(token);
+});
 
 builder.Services.AddDbContext<ProductReviewContext>(options =>
     options.UseNpgsql(connectionString));

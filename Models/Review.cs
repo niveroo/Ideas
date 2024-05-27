@@ -19,8 +19,8 @@ namespace Ideas.Models
         public string? Ans2 { get; set; }
         public string? Ans3 { get; set; }
 
-        public DateTime ReadyFor2 { get; set; }
-        public DateTime ReadyFor3 { get; set; }
+        public DateTime? ReadyFor2 { get; set; }
+        public DateTime? ReadyFor3 { get; set; }
 
         [ForeignKey("Product")]
         public int ProductId { get; set; }

@@ -52,34 +52,34 @@ namespace SmsController.Controllers.Sms
             }
         }
 
-            [HttpPost("verifyMFA")]
-            public IActionResult VerifyMfaCode(string phoneNumber, string code)
+        [HttpPost("verifyMFA")]
+        public IActionResult VerifyMfaCode(string phoneNumber, string code)
+        {
+            try
             {
-                try
-                {
-                    var client = new ClientOAuth(_token);
+                var client = new ClientOAuth(_token);
 
-                    var features = new Features(client);
+                var features = new Features(client);
 
-                    var verificationResult = features.MFA()
-                        .VerifyMfaCode(phoneNumber, code)
-                        .Execute();
+                var verificationResult = features.MFA()
+                    .VerifyMfaCode(phoneNumber, code)
+                    .Execute();
 
-                    return Ok(true);
+                return Ok(true);
             }
-                catch (ValidationException ex)
-                {
-                    var errors = ex.ValidationErrors;
-                    return BadRequest(errors);
-                }
-                catch (TooManyRequestsException)
-                {
-                    return StatusCode(429, "Too many requests. Please try again later.");
-                }
-                catch (ClientException ex)
-                {
-                    return StatusCode(500, "An error occurred while processing your request.");
-                }
+            catch (ValidationException ex)
+            {
+                var errors = ex.ValidationErrors;
+                return BadRequest(errors);
             }
+            catch (TooManyRequestsException)
+            {
+                return StatusCode(429, "Too many requests. Please try again later.");
+            }
+            catch (ClientException ex)
+            {
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
     }
 }
