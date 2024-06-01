@@ -11,8 +11,11 @@ namespace Ideas.Models
 
         public string PhoneNumber { get; set; }
 
+        [Range(1, 5)]
         public int? Points1 { get; set; }
+        [Range(1, 5)]
         public int? Points2 { get; set; }
+        [Range(1, 5)]
         public int? Points3 { get; set; }
 
         public string? Ans1 { get; set; }

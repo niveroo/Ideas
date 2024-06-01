@@ -1,4 +1,5 @@
 ﻿using Ideas.Models;
+using Ideas.Modules;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -47,6 +48,7 @@ namespace Ideas.Controllers.Reviws
             {
                 existingReview.Points3 = review.Points3;
                 existingReview.Ans3 = review.Ans3;
+                _smsSender.SendPromocode(existingReview.PhoneNumber);
             }
             else
             {
