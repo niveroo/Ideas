@@ -1,5 +1,7 @@
 ﻿using Ideas.Models;
+using Ideas.Modules;
 using Microsoft.AspNetCore.Mvc;
+using SMSApi.Api.Action;
 
 
 namespace Ideas.Controllers.Reviws
@@ -9,10 +11,12 @@ namespace Ideas.Controllers.Reviws
     public class ReviewsController : ControllerBase
     {
         private readonly ProductReviewContext _context;
+        private readonly SmsSender _smsSender;
 
-        public ReviewsController(ProductReviewContext context)
+        public ReviewsController(ProductReviewContext context, SmsSender smsSender)
         {
             _context = context;
+            _smsSender = smsSender;
         }
 
         [HttpPost("AddReview")]
@@ -20,6 +24,7 @@ namespace Ideas.Controllers.Reviws
         {
             _context.Reviews.Add(review);
             _context.SaveChanges();
+            _smsSender.SendPromocode(review.PhoneNumber);
 
             return CreatedAtAction(nameof(GetReview), new { id = review.Id }, review);
         }
