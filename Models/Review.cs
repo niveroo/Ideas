@@ -16,6 +16,6 @@ namespace Ideas.Models
         public string Text { get; set; }
 
         [ForeignKey("Product")]
-        public int ProductID { get; set; }
+        public int ProductId { get; set; }
     }
 }
