@@ -7,7 +7,7 @@ namespace Ideas.Models
     public class Review
     {
         [Key]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public string PhoneNumber { get; set; }
 
