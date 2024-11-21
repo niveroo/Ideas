@@ -7,7 +7,7 @@ namespace Ideas.Models
     public class Review
     {
         [Key]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         public string PhoneNumber { get; set; }
 
@@ -16,6 +16,6 @@ namespace Ideas.Models
         public string Text { get; set; }
 
         [ForeignKey("Product")]
-        public int ProductID { get; set; }
+        public int ProductId { get; set; }
     }
 }

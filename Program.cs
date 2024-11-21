@@ -1,5 +1,6 @@
 using Ideas.Models;
 using Microsoft.EntityFrameworkCore;
+using Ideas.Modules;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddSingleton(token);
 
 builder.Services.AddDbContext<ProductReviewContext>(options =>
     options.UseNpgsql(connectionString));
+
+builder.Services.AddScoped<SmsSender>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

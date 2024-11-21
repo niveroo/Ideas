@@ -1,5 +1,4 @@
-﻿using Ideas.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace Ideas.Models
 {
@@ -12,5 +11,6 @@ namespace Ideas.Models
 
         public DbSet<Product> Products { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<Promocode> Promocodes { get; set; }
     }
 }
