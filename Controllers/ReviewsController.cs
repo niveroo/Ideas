@@ -1,7 +1,11 @@
 ﻿using Ideas.Models;
 using Ideas.Modules;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Npgsql;
 using SMSApi.Api.Action;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 namespace Ideas.Controllers.Reviws
@@ -53,6 +57,42 @@ namespace Ideas.Controllers.Reviws
             }
 
             return reviews;
+        }
+
+        [HttpGet("get-average-rating/{productId}")]
+        public IActionResult GetAverageRating(int productId)
+        {
+            var connection = (NpgsqlConnection)_context.Database.GetDbConnection();
+
+            try
+            {
+                connection.Open();
+
+                using (var cmd = new NpgsqlCommand("SELECT get_average_rating(@productId)", connection))
+                {
+                    cmd.Parameters.AddWithValue("productId", productId);
+
+                    var result = cmd.ExecuteScalar();
+
+                    if (result == DBNull.Value)
+                    {
+                        return Ok(0);
+                    }
+
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ошибка при вызове функции: {ex.Message}");
+            }
+            finally
+            {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
         }
     }
 }
