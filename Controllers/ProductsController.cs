@@ -1,5 +1,7 @@
 ﻿using Ideas.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Npgsql;
 
 namespace Ideas.Controllers.Products
 {
@@ -35,5 +37,59 @@ namespace Ideas.Controllers.Products
 
             return products;
         }
+
+        [HttpGet("get-top-rated-products")]
+        public IActionResult GetTopRatedProducts()
+        {
+            var connection = (NpgsqlConnection)_context.Database.GetDbConnection();
+
+            try
+            {
+                connection.Open();
+
+                using (var cmd = new NpgsqlCommand("SELECT * FROM get_top_rated_products()", connection))
+                {
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        var topRatedProducts = new List<ProductRating>(); // Список для хранения продуктов
+
+                        while (reader.Read())
+                        {
+                            var product = new ProductRating
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                Name = reader.GetString(reader.GetOrdinal("Name")),
+                                // Изменяем на GetDouble для типа double precision
+                                AverageRating = reader.GetDouble(reader.GetOrdinal("average_rating"))
+                            };
+
+                            topRatedProducts.Add(product);
+                        }
+
+                        if (topRatedProducts.Any())
+                        {
+                            return Ok(topRatedProducts);
+                        }
+                        else
+                        {
+                            return NotFound();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Ошибка при вызове функции: {ex.Message}");
+            }
+            finally
+            {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    connection.Close();
+                }
+            }
+        }
+
+
     }
 }
