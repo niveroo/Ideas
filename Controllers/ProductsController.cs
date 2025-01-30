@@ -51,7 +51,7 @@ namespace Ideas.Controllers.Products
                 {
                     using (var reader = cmd.ExecuteReader())
                     {
-                        var topRatedProducts = new List<ProductRating>(); // Список для хранения продуктов
+                        var topRatedProducts = new List<ProductRating>();
 
                         while (reader.Read())
                         {
@@ -59,7 +59,6 @@ namespace Ideas.Controllers.Products
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 Name = reader.GetString(reader.GetOrdinal("Name")),
-                                // Изменяем на GetDouble для типа double precision
                                 AverageRating = reader.GetDouble(reader.GetOrdinal("average_rating"))
                             };
 
@@ -79,7 +78,7 @@ namespace Ideas.Controllers.Products
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Ошибка при вызове функции: {ex.Message}");
+                return StatusCode(500, $"Error: {ex.Message}");
             }
             finally
             {

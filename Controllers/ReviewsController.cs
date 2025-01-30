@@ -84,7 +84,7 @@ namespace Ideas.Controllers.Reviws
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"Ошибка при вызове функции: {ex.Message}");
+                return StatusCode(500, $"Error: {ex.Message}");
             }
             finally
             {
